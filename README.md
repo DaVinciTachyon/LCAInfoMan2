@@ -1,4 +1,4 @@
-# LowestCommonAncestorInfoMan2
+# LCAInfoMan2
 
 Initial LCA Solution Commit:
 
