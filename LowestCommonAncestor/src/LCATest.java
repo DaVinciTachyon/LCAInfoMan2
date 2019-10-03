@@ -54,4 +54,27 @@ public class LCATest {
         assertNull(root.getRight().getRight().getLeft());
         assertNull(root.getRight().getRight().getRight());
     }
+
+    @Test
+    public void testLCA() {
+        LCA tree = new LCA();
+        assertEquals(-1, tree.findLCA(0, 0));
+
+        tree.root = new Node(1);
+        tree.root.setLeft(new Node(2));
+        tree.root.setRight(new Node(3));
+        tree.root.getLeft().setLeft(new Node(4));
+        tree.root.getLeft().setRight(new Node(5));
+        tree.root.getRight().setLeft(new Node(6));
+        tree.root.getRight().setRight(new Node(7));
+
+
+        assertEquals(-1, tree.findLCA(10, 11));
+        assertEquals(-1, tree.findLCA(2, 11));
+        assertEquals(-1, tree.findLCA(10, 2));
+        assertEquals(2, tree.findLCA(4, 5));
+        assertEquals(1, tree.findLCA(4, 6));
+        assertEquals(1, tree.findLCA(3, 4));
+        assertEquals(2, tree.findLCA(2, 4));
+    }
 }
