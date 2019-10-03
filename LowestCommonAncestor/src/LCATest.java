@@ -36,5 +36,22 @@ public class LCATest {
         assertEquals(7, root.getRight().getRight().getData());
         assertNull(root.getRight().getRight().getLeft());
         assertNull(root.getRight().getRight().getRight());
+
+
+        assertEquals(1, root.getData());
+        assertEquals(2, root.getLeft().getData());
+        assertEquals(3, root.getRight().getData());
+        assertEquals(4, root.getLeft().getLeft().getData());
+        assertNull(root.getLeft().getLeft().getLeft());
+        assertNull(root.getLeft().getLeft().getRight());
+        assertEquals(5, root.getLeft().getRight().getData());
+        assertNull(root.getLeft().getRight().getLeft());
+        assertNull(root.getLeft().getRight().getRight());
+        assertEquals(6, root.getRight().getLeft().getData());
+        assertNull(root.getRight().getLeft().getLeft());
+        assertNull(root.getRight().getLeft().getRight());
+        assertEquals(7, root.getRight().getRight().getData());
+        assertNull(root.getRight().getRight().getLeft());
+        assertNull(root.getRight().getRight().getRight());
     }
 }
