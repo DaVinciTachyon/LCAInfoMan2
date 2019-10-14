@@ -115,5 +115,10 @@ public class LCATest {
         assertEquals(4, tree.findLCA(4, 4));
         assertEquals(2, tree.findLCA(5, 4));
         assertEquals(3, tree.findLCA(6, 4));
+        assertEquals(1, tree.findLCA(4, 1));
+        assertEquals(2, tree.findLCA(4, 2));
+        assertEquals(3, tree.findLCA(4, 3));
+        assertEquals(2, tree.findLCA(4, 5));
+        assertEquals(3, tree.findLCA(4, 6));
     }
 }
