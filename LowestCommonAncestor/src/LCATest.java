@@ -94,4 +94,26 @@ public class LCATest {
         assertEquals(1, tree.findLCA(2, 4));
         assertEquals(4, tree.findLCA(11, 12));
     }
+
+    @Test
+    public void testDirectedAcyclicLCA() {
+        LCA tree = new LCA();
+        assertEquals(-1, tree.findLCA(0, 0));
+
+        Node repeatedNode = new Node(4);
+        tree.root = new Node(1);
+        tree.root.setNode(new Node(2));
+        tree.root.setNode(new Node(3));
+        tree.root.getNode(0).setNode(repeatedNode);
+        tree.root.getNode(0).setNode(new Node(5));
+        tree.root.getNode(1).setNode(repeatedNode);
+        tree.root.getNode(1).setNode(new Node(6));
+
+        assertEquals(1, tree.findLCA(1, 4));
+        assertEquals(2, tree.findLCA(2, 4));
+        assertEquals(3, tree.findLCA(3, 4));
+        assertEquals(4, tree.findLCA(4, 4));
+        assertEquals(2, tree.findLCA(5, 4));
+        assertEquals(3, tree.findLCA(6, 4));
+    }
 }
