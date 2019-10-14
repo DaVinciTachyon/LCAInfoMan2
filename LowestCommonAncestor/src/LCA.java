@@ -44,11 +44,13 @@ public class LCA {
         if (root.getData() == n)
             return true;
 
-        if (root.getLeft() != null && findPath(root.getLeft(), n, path))
-            return true;
+        int i = 0;
 
-        if (root.getRight() != null && findPath(root.getRight(), n, path))
-            return true;
+        while(i < root.getNodes().size()) {
+            if (root.getNode(i) != null && findPath(root.getNode(i), n, path))
+                return true;
+            i++;
+        }
 
         path.remove(path.size() - 1);
 
