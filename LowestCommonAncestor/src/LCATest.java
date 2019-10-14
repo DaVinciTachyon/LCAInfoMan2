@@ -41,7 +41,7 @@ public class LCATest {
     }
 
     @Test
-    public void testLCA() {
+    public void testBinaryLCA() {
         LCA tree = new LCA();
         assertEquals(-1, tree.findLCA(0, 0));
 
@@ -61,5 +61,37 @@ public class LCATest {
         assertEquals(1, tree.findLCA(4, 6));
         assertEquals(1, tree.findLCA(3, 4));
         assertEquals(2, tree.findLCA(2, 4));
+    }
+
+    @Test
+    public void testTernaryLCA() {
+        LCA tree = new LCA();
+        assertEquals(-1, tree.findLCA(0, 0));
+
+        tree.root = new Node(1);
+        tree.root.setNode(new Node(2));
+        tree.root.setNode(new Node(3));
+        tree.root.setNode(new Node(4));
+        tree.root.getNode(0).setNode(new Node(5));
+        tree.root.getNode(0).setNode(new Node(6));
+        tree.root.getNode(0).setNode(new Node(7));
+        tree.root.getNode(1).setNode(new Node(8));
+        tree.root.getNode(1).setNode(new Node(9));
+        tree.root.getNode(1).setNode(new Node(10));
+        tree.root.getNode(2).setNode(new Node(11));
+        tree.root.getNode(2).setNode(new Node(12));
+        tree.root.getNode(2).setNode(new Node(13));
+
+        assertEquals(-1, tree.findLCA(2, -1));
+        assertEquals(-1, tree.findLCA(2, 100));
+        assertEquals(-1, tree.findLCA(-3, 100));
+        assertEquals(1, tree.findLCA(10, 11));
+        assertEquals(1, tree.findLCA(2, 11));
+        assertEquals(1, tree.findLCA(10, 2));
+        assertEquals(1, tree.findLCA(4, 5));
+        assertEquals(1, tree.findLCA(4, 6));
+        assertEquals(1, tree.findLCA(3, 4));
+        assertEquals(1, tree.findLCA(2, 4));
+        assertEquals(4, tree.findLCA(11, 12));
     }
 }
