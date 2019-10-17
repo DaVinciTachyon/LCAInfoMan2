@@ -10,63 +10,48 @@ public class LCATest {
     public void testNode() {
         Node root = new Node(1);
         assertEquals(1, root.getData());
-        assertNull(root.getLeft());
-        assertNull(root.getRight());
-        root.setLeft(new Node(2));
-        assertEquals(2, root.getLeft().getData());
-        assertNull(root.getLeft().getLeft());
-        assertNull(root.getLeft().getRight());
-        root.setRight(new Node(3));
-        assertEquals(3, root.getRight().getData());
-        assertNull(root.getRight().getLeft());
-        assertNull(root.getRight().getRight());
-        root.getLeft().setLeft(new Node(4));
-        assertEquals(4, root.getLeft().getLeft().getData());
-        assertNull(root.getLeft().getLeft().getLeft());
-        assertNull(root.getLeft().getLeft().getRight());
-        root.getLeft().setRight(new Node(5));
-        assertEquals(5, root.getLeft().getRight().getData());
-        assertNull(root.getLeft().getRight().getLeft());
-        assertNull(root.getLeft().getRight().getRight());
-        root.getRight().setLeft(new Node(6));
-        assertEquals(6, root.getRight().getLeft().getData());
-        assertNull(root.getRight().getLeft().getLeft());
-        assertNull(root.getRight().getLeft().getRight());
-        root.getRight().setRight(new Node(7));
-        assertEquals(7, root.getRight().getRight().getData());
-        assertNull(root.getRight().getRight().getLeft());
-        assertNull(root.getRight().getRight().getRight());
+        assertEquals(0, root.getNodes().size());
+        root.setNode(new Node(2));
+        assertEquals(2, root.getNode(0).getData());
+        assertEquals(0, root.getNode(0).getNodes().size());
+        root.setNode(new Node(3));
+        assertEquals(3, root.getNode(1).getData());
+        assertEquals(0, root.getNode(1).getNodes().size());
+        root.getNode(0).setNode(new Node(4));
+        assertEquals(4, root.getNode(0).getNode(0).getData());
+        assertEquals(0, root.getNode(0).getNode(0).getNodes().size());
+        root.getNode(0).setNode(new Node(5));
+        assertEquals(5, root.getNode(0).getNode(1).getData());
+        assertEquals(0, root.getNode(0).getNode(1).getNodes().size());
+        root.getNode(1).setNode(new Node(6));
+        assertEquals(6, root.getNode(1).getNode(0).getData());
+        assertEquals(0, root.getNode(1).getNode(0).getNodes().size());
+        root.getNode(1).setNode(new Node(7));
+        assertEquals(7, root.getNode(1).getNode(1).getData());
+        assertEquals(0, root.getNode(1).getNode(1).getNodes().size());
 
 
         assertEquals(1, root.getData());
-        assertEquals(2, root.getLeft().getData());
-        assertEquals(3, root.getRight().getData());
-        assertEquals(4, root.getLeft().getLeft().getData());
-        assertNull(root.getLeft().getLeft().getLeft());
-        assertNull(root.getLeft().getLeft().getRight());
-        assertEquals(5, root.getLeft().getRight().getData());
-        assertNull(root.getLeft().getRight().getLeft());
-        assertNull(root.getLeft().getRight().getRight());
-        assertEquals(6, root.getRight().getLeft().getData());
-        assertNull(root.getRight().getLeft().getLeft());
-        assertNull(root.getRight().getLeft().getRight());
-        assertEquals(7, root.getRight().getRight().getData());
-        assertNull(root.getRight().getRight().getLeft());
-        assertNull(root.getRight().getRight().getRight());
+        assertEquals(2, root.getNode(0).getData());
+        assertEquals(3, root.getNode(1).getData());
+        assertEquals(4, root.getNode(0).getNode(0).getData());
+        assertEquals(5, root.getNode(0).getNode(1).getData());
+        assertEquals(6, root.getNode(1).getNode(0).getData());
+        assertEquals(7, root.getNode(1).getNode(1).getData());
     }
 
     @Test
-    public void testLCA() {
+    public void testBinaryLCA() {
         LCA tree = new LCA();
         assertEquals(-1, tree.findLCA(0, 0));
 
         tree.root = new Node(1);
-        tree.root.setLeft(new Node(2));
-        tree.root.setRight(new Node(3));
-        tree.root.getLeft().setLeft(new Node(4));
-        tree.root.getLeft().setRight(new Node(5));
-        tree.root.getRight().setLeft(new Node(6));
-        tree.root.getRight().setRight(new Node(7));
+        tree.root.setNode(new Node(2));
+        tree.root.setNode(new Node(3));
+        tree.root.getNode(0).setNode(new Node(4));
+        tree.root.getNode(0).setNode(new Node(5));
+        tree.root.getNode(1).setNode(new Node(6));
+        tree.root.getNode(1).setNode(new Node(7));
 
 
         assertEquals(-1, tree.findLCA(10, 11));
@@ -76,5 +61,65 @@ public class LCATest {
         assertEquals(1, tree.findLCA(4, 6));
         assertEquals(1, tree.findLCA(3, 4));
         assertEquals(2, tree.findLCA(2, 4));
+    }
+
+    @Test
+    public void testTernaryLCA() {
+        LCA tree = new LCA();
+        assertEquals(-1, tree.findLCA(0, 0));
+
+        tree.root = new Node(1);
+        tree.root.setNode(new Node(2));
+        tree.root.setNode(new Node(3));
+        tree.root.setNode(new Node(4));
+        tree.root.getNode(0).setNode(new Node(5));
+        tree.root.getNode(0).setNode(new Node(6));
+        tree.root.getNode(0).setNode(new Node(7));
+        tree.root.getNode(1).setNode(new Node(8));
+        tree.root.getNode(1).setNode(new Node(9));
+        tree.root.getNode(1).setNode(new Node(10));
+        tree.root.getNode(2).setNode(new Node(11));
+        tree.root.getNode(2).setNode(new Node(12));
+        tree.root.getNode(2).setNode(new Node(13));
+
+        assertEquals(-1, tree.findLCA(2, -1));
+        assertEquals(-1, tree.findLCA(2, 100));
+        assertEquals(-1, tree.findLCA(-3, 100));
+        assertEquals(1, tree.findLCA(10, 11));
+        assertEquals(1, tree.findLCA(2, 11));
+        assertEquals(1, tree.findLCA(10, 2));
+        assertEquals(1, tree.findLCA(4, 5));
+        assertEquals(1, tree.findLCA(4, 6));
+        assertEquals(1, tree.findLCA(3, 4));
+        assertEquals(1, tree.findLCA(2, 4));
+        assertEquals(4, tree.findLCA(11, 12));
+        assertEquals(2, tree.findLCA(2, 5));
+    }
+
+    @Test
+    public void testDirectedAcyclicLCA() {
+        LCA tree = new LCA();
+        assertEquals(-1, tree.findLCA(0, 0));
+
+        Node repeatedNode = new Node(4);
+        tree.root = new Node(1);
+        tree.root.setNode(new Node(2));
+        tree.root.setNode(new Node(3));
+        tree.root.getNode(0).setNode(repeatedNode);
+        tree.root.getNode(0).setNode(new Node(5));
+        tree.root.getNode(1).setNode(repeatedNode);
+        tree.root.getNode(1).setNode(new Node(6));
+
+        assertEquals(1, tree.findLCA(1, 4));
+        assertEquals(2, tree.findLCA(2, 4));
+        assertEquals(3, tree.findLCA(3, 4));
+        assertEquals(4, tree.findLCA(4, 4));
+        assertEquals(2, tree.findLCA(5, 4));
+        assertEquals(3, tree.findLCA(6, 4));
+        assertEquals(1, tree.findLCA(4, 1));
+        assertEquals(2, tree.findLCA(4, 2));
+        assertEquals(3, tree.findLCA(4, 3));
+        assertEquals(2, tree.findLCA(4, 5));
+        assertEquals(3, tree.findLCA(4, 6));
     }
 }

@@ -1,11 +1,12 @@
+import java.util.ArrayList;
+
 public class Node {
     private int data;
-    private Node left, right; //make arraylist
+    private ArrayList<Node> nodes;
 
     Node(int value) {
         setData(value);
-        setLeft(null);
-        setRight(null);
+        setNodes(new ArrayList<>());
     }
 
     public int getData() {
@@ -16,19 +17,19 @@ public class Node {
         this.data = data;
     }
 
-    public Node getLeft() {
-        return left;
+    public ArrayList<Node> getNodes() {
+        return nodes;
     }
 
-    public void setLeft(Node left) {
-        this.left = left;
+    public void setNodes(ArrayList<Node> nodes) {
+        this.nodes = nodes;
     }
 
-    public Node getRight() {
-        return right;
+    public void setNode(Node node) {
+        nodes.add(node);
     }
 
-    public void setRight(Node right) {
-        this.right = right;
+    public Node getNode(int index) {
+        return nodes.get(index);
     }
 }

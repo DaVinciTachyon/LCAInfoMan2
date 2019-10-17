@@ -4,8 +4,8 @@ import java.util.List;
 public class LCA {
 
     Node root;
-    private List<Integer> path1;
-    private List<Integer> path2;
+    private List<List<Integer>> path1;
+    private List<List<Integer>> path2;
 
     LCA() {
         path1 = new ArrayList<>();
@@ -20,35 +20,79 @@ public class LCA {
     }
 
     private int findLCAInternal(Node root, int n1, int n2) {
+        int t = 0;
+        while(true) {
+            path1.add(new ArrayList<>());
+            if (!findPath(root, n1, path1.get(t), t, 0)) {
+                if(path1.size() > 0)
+                    path1.remove(t);
+                break;
+            }
+            t++;
+        }
+        System.out.println(n1 + " " + n2 + " -- " + path1.size() + " - " + path2.size());
 
-        if (!findPath(root, n1, path1) || !findPath(root, n2, path2)) {
-            System.out.println((path1.size() > 0) ? "n1 is present" : "n1 is missing");
-            System.out.println((path2.size() > 0) ? "n2 is present" : "n2 is missing");
+        if(path1.size() == 0)
             return -1;
+
+        t = 0;
+
+        while(true) {
+            path2.add(new ArrayList<>());
+            if (!findPath(root, n2, path2.get(t), t, 0)) {
+                if(path2.size() > 0)
+                    path2.remove(t);
+                break;
+            }
+            t++;
+        }
+        System.out.println(n1 + " " + n2 + " -- " + path1.size() + " - " + path2.size());
+
+        if(path2.size() == 0)
+            return -1;
+
+        int minLength = Integer.MAX_VALUE, minValue = -1;
+        for(int i = 0; i < path1.size(); i++)
+            for(int j = 0; j < path2.size(); j++)
+                for(int k = 0; k < path1.get(i).size() && k < path2.get(j).size(); k++)
+                    if (!path1.get(i).get(k).equals(path2.get(j).get(k))) {
+                        if (minLength > k) {
+                            minLength = k;
+                            minValue = path1.get(i).get(k - 1);
+                        }
+                        break;
+                    }
+
+        if(minValue == -1) {
+            for(int i = 0; i < path1.size(); i++)
+                for(int j = 0; j < path1.get(i).size(); j++)
+                    if(path1.get(i).get(j) == n2)
+                        return n2;
+            return n1;
         }
 
-        int i;
-        for (i = 0; i < path1.size() && i < path2.size(); i++)
-            if (!path1.get(i).equals(path2.get(i)))
-                break;
-
-        return path1.get(i - 1);
+        return minValue;
     }
 
-    private boolean findPath(Node root, int n, List<Integer> path) {
-        if (root == null)
+    private boolean findPath(Node root, int n, List<Integer> path, int t, int p) {
+        if(root == null)
             return false;
 
         path.add(root.getData());
 
-        if (root.getData() == n)
+        if(root.getData() == n && t == 0)
             return true;
 
-        if (root.getLeft() != null && findPath(root.getLeft(), n, path))
-            return true;
+        for(int i = 0; i < root.getNodes().size(); i++) {
+            if(root.getNode(i) != null && findPath(root.getNode(i), n, path, t, p + 1)) {
+                if(t == 0)
+                    return true;
 
-        if (root.getRight() != null && findPath(root.getRight(), n, path))
-            return true;
+                t--;
+                while(path.size() > p + 1)
+                    path.remove(path.size() - 1);
+            }
+        }
 
         path.remove(path.size() - 1);
 
