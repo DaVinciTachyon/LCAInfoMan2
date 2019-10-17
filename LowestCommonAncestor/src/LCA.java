@@ -20,12 +20,18 @@ public class LCA {
     }
 
     private int findLCAInternal(Node root, int n1, int n2) {
-
-        if (!findPath(root, n1, path1) || !findPath(root, n2, path2)) {
-            System.out.println((path1.size() > 0) ? "n1 is present" : "n1 is missing");
-            System.out.println((path2.size() > 0) ? "n2 is present" : "n2 is missing");
-            return -1;
+        int t = 0;
+        while(true) {
+            if (!findPath(root, n1, path1, t) || !findPath(root, n2, path2, t)) {
+                System.out.println((path1.size() > 0) ? "n1 is present" : "n1 is missing");
+                System.out.println((path2.size() > 0) ? "n2 is present" : "n2 is missing");
+                break;
+            }
+            t++;
         }
+
+        if(t == 0)
+            return -1;
 
         int i;
         for (i = 0; i < path1.size() && i < path2.size(); i++)
@@ -35,7 +41,7 @@ public class LCA {
         return path1.get(i - 1);
     }
 
-    private boolean findPath(Node root, int n, List<Integer> path) {
+    private boolean findPath(Node root, int n, List<Integer> path, int t) {
         if (root == null)
             return false;
 
@@ -44,12 +50,13 @@ public class LCA {
         if (root.getData() == n)
             return true;
 
-        int i = 0;
-
-        while(i < root.getNodes().size()) {
-            if (root.getNode(i) != null && findPath(root.getNode(i), n, path))
-                return true;
-            i++;
+        for(int i = 0; i < root.getNodes().size(); i++) {
+            if (root.getNode(i) != null && findPath(root.getNode(i), n, path, t)) {
+                if(t > 0)
+                    t--;
+                else
+                    return true;
+            }
         }
 
         path.remove(path.size() - 1);
