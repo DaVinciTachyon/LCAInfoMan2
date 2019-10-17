@@ -93,6 +93,7 @@ public class LCATest {
         assertEquals(1, tree.findLCA(3, 4));
         assertEquals(1, tree.findLCA(2, 4));
         assertEquals(4, tree.findLCA(11, 12));
+        assertEquals(2, tree.findLCA(2, 5));
     }
 
     @Test
