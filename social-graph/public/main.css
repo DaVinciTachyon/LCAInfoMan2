@@ -18,3 +18,11 @@ body {
 .container {
 	padding: 2px 16px;
 }
+
+img {
+	width: 100%;
+}
+
+#profile {
+	width: 200px;
+}
