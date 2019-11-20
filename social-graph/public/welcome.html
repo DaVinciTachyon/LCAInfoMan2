@@ -18,9 +18,17 @@
 	<script>getProfile()</script>
 </div>
 
-<div class="card centered">
-	<div id="punch_card_stats">
-		<script>punchCardGraph('DaVinciTachyon', 'TCD', 'punch_card_stats')</script>
+<div class="centered" style="display: flex;">
+	<div class="card">
+		<div id="punch_card_stats">
+			<script>punchCardGraph('DaVinciTachyon', 'TCD', 'punch_card_stats')</script>
+		</div>
+	</div>
+	<div class="card">
+		<div id="commit_activity_chart">
+			<script>commitActivityGraph('DaVinciTachyon', 'TCD', 'commit_activity_chart')</script>
+		</div>
 	</div>
 </div>
+
 </html>

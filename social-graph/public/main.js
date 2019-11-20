@@ -141,23 +141,6 @@ function punchCardGraph(user, repo, graphID) {
 		};
 
 		// ---------------------------//
-		//       HIGHLIGHT GROUP      //
-		// ---------------------------//
-
-		// What to do when one group is hovered
-		var highlight = function(d) {
-			// reduce opacity of all groups
-			d3.selectAll('.bubbles').style('opacity', 0.05);
-			// expect the one that is hovered
-			d3.selectAll('.' + d).style('opacity', 1);
-		};
-
-		// And when it is not hovered anymore
-		var noHighlight = function(d) {
-			d3.selectAll('.bubbles').style('opacity', 1);
-		};
-
-		// ---------------------------//
 		//       CIRCLES              //
 		// ---------------------------//
 
@@ -194,7 +177,97 @@ function punchCardGraph(user, repo, graphID) {
 		// Add title to graph
 		var titleNode = document.createElement('div');
 		titleNode.id = graphID + '_title';
-		titleNode.textContent = repo;
+		titleNode.textContent = repo + ' - Hourly';
+		titleNode.style = 'font-size: 22px; padding: 5px; margin: 2px;';
+		document.getElementById(graphID).prepend(titleNode);
+
+		// Add subtitle to graph
+		var subTitleNode = document.createElement('div');
+		subTitleNode.id = graphID + '_subTitle';
+		subTitleNode.textContent = user;
+		subTitleNode.style = 'font-size: 14px; color: grey; padding: 2px; margin: 2px;';
+		document.getElementById(graphID + '_title').append(subTitleNode);
+	});
+}
+
+function commitActivityGraph(user, repo, graphID) {
+	// set the dimensions and margins of the graph
+	var margin = { top: 60, right: 60, bottom: 60, left: 60 },
+		width = 580 - margin.left - margin.right,
+		height = 500 - margin.top - margin.bottom;
+
+	// append the svg object to the body of the page
+	var svg = d3
+		.select('#' + graphID)
+		.append('svg')
+		.attr('width', width + margin.left + margin.right)
+		.attr('height', height + margin.top + margin.bottom)
+		.append('g')
+		.attr('transform', 'translate(' + margin.left + ',' + margin.top + ')');
+
+	// Parse the Data
+	d3.json('//api.github.com/repos/' + user + '/' + repo + '/stats/commit_activity', function(data) {
+		// Add X axis
+		var x = d3
+			.scaleLinear()
+			.domain(
+				d3.extent(data, function(d) {
+					return d.week;
+				})
+			)
+			.range([
+				0,
+				width
+			]);
+		svg.append('g').attr('transform', 'translate(0,' + height + ')').call(d3.axisBottom(x));
+		// Add Y axis
+		var y = d3
+			.scaleLinear()
+			.domain([
+				0,
+				20
+			])
+			.range([
+				height,
+				0
+			]);
+		svg.append('g').call(d3.axisLeft(y));
+		// Add the line
+		svg.append('path').datum(data).attr('fill', 'none').attr('stroke', '#69b3a2').attr('stroke-width', 1.5).attr(
+			'd',
+			d3
+				.line()
+				.x(function(d) {
+					return x(d.week);
+				})
+				.y(function(d) {
+					return y(d.total);
+				})
+		);
+		// Add the points
+		svg
+			.append('g')
+			.selectAll('dot')
+			.data(data)
+			.enter()
+			.append('circle')
+			.attr('cx', function(d) {
+				return x(d.week);
+			})
+			.attr('cy', function(d) {
+				return y(d.total);
+			})
+			.attr('r', 5)
+			.attr('fill', '#69b3a2');
+
+		// ---------------------------//
+		//       TITLE                //
+		// ---------------------------//
+
+		// Add title to graph
+		var titleNode = document.createElement('div');
+		titleNode.id = graphID + '_title';
+		titleNode.textContent = repo + ' - Daily';
 		titleNode.style = 'font-size: 22px; padding: 5px; margin: 2px;';
 		document.getElementById(graphID).prepend(titleNode);
 
