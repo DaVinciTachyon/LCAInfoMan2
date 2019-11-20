@@ -9,11 +9,25 @@
 	<script src="https://d3js.org/d3.v4.js"></script>
 	<link rel="stylesheet" type="text/css" media="screen" href="main.css" />
 	<script src="main.js"></script>
+	<script>
+		function getRepo() {
+			username = document.getElementById('username').value;
+			repo = document.getElementById('repo').value;
+			document.getElementById('punch_card_stats').innerHTML = "";
+			punchCardGraph(username, repo, 'punch_card_stats');
+			document.getElementById('commit_activity_chart').innerHTML = "";
+			commitActivityGraph(username, repo, 'commit_activity_chart');
+		}
+	</script>
 </head>
 
 <body>
 
 </body>
+<script>
+var username = 'DaVinciTachyon';
+var repo = 'TCD';
+</script>
 <div class="toolbar">
 	<a href=""><div class="toolbaritem card">Home</div></a>
 </div>
@@ -24,19 +38,19 @@
 	</div>
 	<div id="searchbox" class="whiteback card">
 		<form>
-			<input class="card" name="username" type="text" value="DaVinciTachyon">
-			<input class="card" name="repo" type="text" value="TCD">
-			<button class="card" type="button" onclick="alert('Hello World!')">Get Repo Information</button>
+			<input class="card" id="username" name="username" type="text" value="DaVinciTachyon">
+			<input class="card" id="repo" name="repo" type="text" value="TCD">
+			<button class="card" type="button" onclick="getRepo()">Get Repo Information</button>
 		</form>
 	</div>
 	<div id="punchcard" class="whiteback card">
 		<div id="punch_card_stats">
-			<script>punchCardGraph('DaVinciTachyon', 'TCD', 'punch_card_stats')</script>
+			<script>punchCardGraph(username, repo, 'punch_card_stats')</script>
 		</div>
 	</div>
 	<div id="commitactivity" class="whiteback card">
 		<div id="commit_activity_chart">
-			<script>commitActivityGraph('DaVinciTachyon', 'TCD', 'commit_activity_chart')</script>
+			<script>commitActivityGraph(username, repo, 'commit_activity_chart')</script>
 		</div>
 	</div>
 </div>
