@@ -14,17 +14,24 @@
 <body>
 
 </body>
-<div id="profile" class="card">
-	<script>getProfile()</script>
-</div>
 
-<div class="centered" style="display: flex;">
-	<div class="card">
+<div class="content centered">
+	<div id="profile" class="whiteback card">
+		<script>getProfile()</script>
+	</div>
+	<div id="searchbox" class="whiteback card">
+		<form>
+			<input class="card" name="username" type="text" value="DaVinciTachyon">
+			<input class="card" name="repo" type="text" value="TCD">
+			<button class="card" type="button" onclick="alert('Hello World!')">Get Repo Information</button>
+		</form>
+	</div>
+	<div id="punchcard" class="whiteback card">
 		<div id="punch_card_stats">
 			<script>punchCardGraph('DaVinciTachyon', 'TCD', 'punch_card_stats')</script>
 		</div>
 	</div>
-	<div class="card">
+	<div id="commitactivity" class="whiteback card">
 		<div id="commit_activity_chart">
 			<script>commitActivityGraph('DaVinciTachyon', 'TCD', 'commit_activity_chart')</script>
 		</div>
