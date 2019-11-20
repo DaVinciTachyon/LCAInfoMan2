@@ -70,7 +70,7 @@
 				// ---------------------------//
 				//       AXIS  AND SCALE      //
 				// ---------------------------//
-
+				
 				// Add X axis
 				var x = d3.scaleLinear()
 					.domain([0, 6])
@@ -105,17 +105,17 @@
 				var z = d3.scaleSqrt()
 					.domain([0, 25])
 					.range([0, 20]);
-
+				
 				// Add a scale for bubble color
 				var myColor = d3.scaleSqrt()
 					.domain([0, 25])
 					.range(['white', 'green']);
-
+				
 
 				// ---------------------------//
 				//      TOOLTIP               //
 				// ---------------------------//
-
+				
 				// -1- Create a tooltip div that is hidden by default:
 				var tooltip = d3.select("#" + graphID)
 					.append("div")
@@ -168,7 +168,7 @@
 				// ---------------------------//
 				//       CIRCLES              //
 				// ---------------------------//
-
+				
 				// Add dots
 				svg.append('g')
 					.selectAll("dot")
@@ -183,6 +183,24 @@
 					// -3- Trigger the functions for hover
 					.on("mouseover", showTooltip)
 					.on("mouseleave", hideTooltip)
+
+				// ---------------------------//
+				//       TITLE                //
+				// ---------------------------//
+				
+				// Add title to graph
+				var titleNode = document.createElement('div')
+				titleNode.id = graphID + '_title'
+				titleNode.textContent = repo
+				titleNode.style = "font-size: 22px;"
+				document.getElementById(graphID).prepend(titleNode)
+
+				// Add subtitle to graph
+				var subTitleNode = document.createElement('div')
+				subTitleNode.id = graphID + '_subTitle'
+				subTitleNode.textContent = user
+				subTitleNode.style = "font-size: 14px; color: grey;"
+				document.getElementById(graphID + '_title').append(subTitleNode)
 			})
 		</script>
 	</div>
