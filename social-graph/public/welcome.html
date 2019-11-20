@@ -113,6 +113,41 @@
 
 
 				// ---------------------------//
+				//      TOOLTIP               //
+				// ---------------------------//
+
+				// -1- Create a tooltip div that is hidden by default:
+				var tooltip = d3.select("#" + graphID)
+					.append("div")
+					.style("opacity", 0)
+					.attr("class", "tooltip")
+					.style("background-color", "black")
+					.style("border-radius", "5px")
+					.style("padding", "10px")
+					.style("color", "white")
+					.style("position", "absolute")
+
+				// -2- Create 3 functions to show (when mouse move but stay on same circle) / hide the tooltip
+				var showTooltip = function (d) {
+					tooltip
+						.transition()
+						.duration(200)
+					tooltip
+						.style("opacity", 1)
+						.html("Commits: " + d[2])
+						.style("left", d3.select(this).attr("cx") + "px")
+						.style("top", d3.select(this).attr("cy") + "px")
+				}
+
+				var hideTooltip = function (d) {
+					tooltip
+						.transition()
+						.duration(200)
+						.style("opacity", 0)
+				}
+
+
+				// ---------------------------//
 				//       HIGHLIGHT GROUP      //
 				// ---------------------------//
 
