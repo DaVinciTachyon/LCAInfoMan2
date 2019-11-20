@@ -26,3 +26,21 @@ img {
 #profile {
 	width: 200px;
 }
+
+.bubbles {
+	stroke-width: 1px;
+	stroke: black;
+	opacity: .8;
+}
+
+.bubbles:hover {
+	stroke: black;
+}
+
+.centered {
+	position: absolute;
+	top: 50%;
+	left: 50%;
+	transform: translate(-50%, -50%);
+	text-align: center;
+}
