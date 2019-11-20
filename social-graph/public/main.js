@@ -210,41 +210,60 @@ function commitActivityGraph(user, repo, graphID) {
 		// Add X axis
 		var x = d3
 			.scaleLinear()
-			.domain(
-				d3.extent(data, function(d) {
-					return d.week;
-				})
-			)
+			.domain([
+				0,
+				52
+			])
 			.range([
 				0,
 				width
 			]);
 		svg.append('g').attr('transform', 'translate(0,' + height + ')').call(d3.axisBottom(x));
+
+		// Add X axis label:
+		svg.append('text').attr('text-anchor', 'end').attr('x', width).attr('y', height + 50).text('Week');
+
+		var maxCommits = 0;
+		d3.extent(data, function(d) {
+			if (d.total > maxCommits) maxCommits = d.total;
+		});
 		// Add Y axis
 		var y = d3
 			.scaleLinear()
 			.domain([
 				0,
-				20
+				maxCommits
 			])
 			.range([
 				height,
 				0
 			]);
 		svg.append('g').call(d3.axisLeft(y));
+
+		// Add Y axis label:
+		svg
+			.append('text')
+			.attr('text-anchor', 'end')
+			.attr('x', 0)
+			.attr('y', -20)
+			.text('Commits')
+			.attr('text-anchor', 'start');
+
 		// Add the line
+		var week = 0;
 		svg.append('path').datum(data).attr('fill', 'none').attr('stroke', '#69b3a2').attr('stroke-width', 1.5).attr(
 			'd',
 			d3
 				.line()
 				.x(function(d) {
-					return x(d.week);
+					return x(week++);
 				})
 				.y(function(d) {
 					return y(d.total);
 				})
 		);
 		// Add the points
+		week = 0;
 		svg
 			.append('g')
 			.selectAll('dot')
@@ -252,12 +271,12 @@ function commitActivityGraph(user, repo, graphID) {
 			.enter()
 			.append('circle')
 			.attr('cx', function(d) {
-				return x(d.week);
+				return x(week++);
 			})
 			.attr('cy', function(d) {
 				return y(d.total);
 			})
-			.attr('r', 5)
+			.attr('r', 3)
 			.attr('fill', '#69b3a2');
 
 		// ---------------------------//
@@ -267,7 +286,7 @@ function commitActivityGraph(user, repo, graphID) {
 		// Add title to graph
 		var titleNode = document.createElement('div');
 		titleNode.id = graphID + '_title';
-		titleNode.textContent = repo + ' - Daily';
+		titleNode.textContent = repo + ' - Weekly';
 		titleNode.style = 'font-size: 22px; padding: 5px; margin: 2px;';
 		document.getElementById(graphID).prepend(titleNode);
 
