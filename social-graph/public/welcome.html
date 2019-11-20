@@ -47,98 +47,107 @@
 <div class="card centered">
 	<div id="punch_card_stats">
 		<script>
+			const user = 'DaVinciTachyon'
+			const repo = 'TCD'
+			const graphID = 'punch_card_stats'
+			// set the dimensions and margins of the graph
+			var margin = { top: 60, right: 60, bottom: 60, left: 60 },
+				width = 580 - margin.left - margin.right,
+				height = 500 - margin.top - margin.bottom;
 
-		// set the dimensions and margins of the graph
-		var margin = { top: 10, right: 20, bottom: 30, left: 50 },
-			width = 500 - margin.left - margin.right,
-			height = 420 - margin.top - margin.bottom;
+			// append the svg object to the body of the page
+			var svg = d3.select("#" + graphID)
+				.append("svg")
+				.attr("width", width + margin.left + margin.right)
+				.attr("height", height + margin.top + margin.bottom)
+				.append("g")
+				.attr("transform",
+					"translate(" + margin.left + "," + margin.top + ")");
 
-		// append the svg object to the body of the page
-		var svg = d3.select("#punch_card_stats")
-			.append("svg")
-			.attr("width", width + margin.left + margin.right)
-			.attr("height", height + margin.top + margin.bottom)
-			.append("g")
-			.attr("transform",
-				"translate(" + margin.left + "," + margin.top + ")");
+			//Read the data
+			d3.json("//api.github.com/repos/" + user + "/" + repo + "/stats/punch_card", function (data) {
 
-		//Read the data
-		d3.csv("https://raw.githubusercontent.com/holtzy/data_to_viz/master/Example_dataset/4_ThreeNum.csv", function (data) {
+				// ---------------------------//
+				//       AXIS  AND SCALE      //
+				// ---------------------------//
 
-			// Add X axis
-			var x = d3.scaleLinear()
-				.domain([0, 12000])
-				.range([0, width]);
-			svg.append("g")
-				.attr("transform", "translate(0," + height + ")")
-				.call(d3.axisBottom(x));
+				// Add X axis
+				var x = d3.scaleLinear()
+					.domain([0, 6])
+					.range([0, width]);
+				svg.append("g")
+					.attr("transform", "translate(0," + height + ")")
+					.call(d3.axisBottom(x).ticks(7));
 
-			// Add Y axis
-			var y = d3.scaleLinear()
-				.domain([35, 90])
-				.range([height, 0]);
-			svg.append("g")
-				.call(d3.axisLeft(y));
+				// Add X axis label:
+				svg.append("text")
+					.attr("text-anchor", "end")
+					.attr("x", width)
+					.attr("y", height + 50)
+					.text("Day");
 
-			// Add a scale for bubble size
-			var z = d3.scaleLinear()
-				.domain([200000, 1310000000])
-				.range([4, 40]);
+				// Add Y axis
+				var y = d3.scaleLinear()
+					.domain([0, 23])
+					.range([height, 0]);
+				svg.append("g")
+					.call(d3.axisLeft(y).ticks(24));
 
-			// Add a scale for bubble color
-			var myColor = d3.scaleOrdinal()
-				.domain(["Asia", "Europe", "Americas", "Africa", "Oceania"])
-				.range(d3.schemeSet2);
+				// Add Y axis label:
+				svg.append("text")
+					.attr("text-anchor", "end")
+					.attr("x", 0)
+					.attr("y", -20)
+					.text("Hour")
+					.attr("text-anchor", "start")
 
-			// -1- Create a tooltip div that is hidden by default:
-			var tooltip = d3.select("#punch_card_stats")
-				.append("div")
-				.style("opacity", 0)
-				.attr("class", "tooltip")
-				.style("background-color", "black")
-				.style("border-radius", "5px")
-				.style("padding", "10px")
-				.style("color", "white")
+				// Add a scale for bubble size
+				var z = d3.scaleSqrt()
+					.domain([0, 25])
+					.range([0, 20]);
 
-			// -2- Create 3 functions to show / update (when mouse move but stay on same circle) / hide the tooltip
-			var showTooltip = function (d) {
-				tooltip
-					.transition()
-					.duration(200)
-				tooltip
-					.style("opacity", 1)
-					.html("Country: " + d.country)
-					.style("left", (d3.mouse(this)[0] + 30) + "px")
-					.style("top", (d3.mouse(this)[1] + 30) + "px")
-			}
-			var moveTooltip = function (d) {
-				tooltip
-					.style("left", (d3.mouse(this)[0] + 30) + "px")
-					.style("top", (d3.mouse(this)[1] + 30) + "px")
-			}
-			var hideTooltip = function (d) {
-				tooltip
-					.transition()
-					.duration(200)
-					.style("opacity", 0)
-			}
+				// Add a scale for bubble color
+				var myColor = d3.scaleSqrt()
+					.domain([0, 25])
+					.range(['white', 'green']);
 
-			// Add dots
-			svg.append('g')
-				.selectAll("dot")
-				.data(data)
-				.enter()
-				.append("circle")
-				.attr("class", "bubbles")
-				.attr("cx", function (d) { return x(d.gdpPercap); })
-				.attr("cy", function (d) { return y(d.lifeExp); })
-				.attr("r", function (d) { return z(d.pop); })
-				.style("fill", function (d) { return myColor(d.continent); })
-				// -3- Trigger the functions
-				.on("mouseover", showTooltip)
-				.on("mousemove", moveTooltip)
-				.on("mouseleave", hideTooltip)
 
+				// ---------------------------//
+				//       HIGHLIGHT GROUP      //
+				// ---------------------------//
+
+				// What to do when one group is hovered
+				var highlight = function (d) {
+					// reduce opacity of all groups
+					d3.selectAll(".bubbles").style("opacity", .05)
+					// expect the one that is hovered
+					d3.selectAll("." + d).style("opacity", 1)
+				}
+
+				// And when it is not hovered anymore
+				var noHighlight = function (d) {
+					d3.selectAll(".bubbles").style("opacity", 1)
+				}
+
+
+				// ---------------------------//
+				//       CIRCLES              //
+				// ---------------------------//
+
+				// Add dots
+				svg.append('g')
+					.selectAll("dot")
+					.data(data)
+					.enter()
+					.append("circle")
+					.attr("class", function (d) { return "bubbles " + d[2] })
+					.attr("cx", function (d) { return x(d[0]); })
+					.attr("cy", function (d) { return y(d[1]); })
+					.attr("r", function (d) { return z(d[2]); })
+					.style("fill", function (d) { return myColor(d[2]); })
+					// -3- Trigger the functions for hover
+					.on("mouseover", showTooltip)
+					.on("mouseleave", hideTooltip)
 			})
 		</script>
 	</div>
