@@ -1,13 +1,17 @@
-// Import the express lirbary
+// Import the express library
 const express = require('express');
 
 // Import the axios library, to make HTTP requests
 const axios = require('axios');
 
+//Import the dotenv library, to keep codes secret
+const dotenv = require('dotenv');
+dotenv.config();
+
 // This is the client ID and client secret that you obtained
 // while registering the application
-const clientID = 'dc4fffbc376373b3a8ff';
-const clientSecret = 'c77da56e927abc6e88314dac026ac7a914bde3ac';
+const clientID = process.env.CLIENT_ID;
+const clientSecret = process.env.CLIENT_SECRET;
 
 // Create a new express application and use
 // the express static middleware, to serve all files
