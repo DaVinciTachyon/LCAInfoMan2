@@ -9,6 +9,7 @@ body {
 	transition: 0.3s;
 	width: 580px;
 	background: white;
+	border-radius: 5px;
 }
 
 .card:hover {
