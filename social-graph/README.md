@@ -39,8 +39,6 @@ This endpoint receives the response from github, either refusing or accepting th
 
 The home page contains the main contents of the website.
 
-It is built from multiple components.
-
 `Toolbar` - There is a toolbar at the top of the screen with a home button. This may be expanded to allow other pages in the future.
 
 `Image` - The first component is an image with a name underneath. These are the avatar and name of the logged in user.
@@ -52,3 +50,9 @@ It is built from multiple components.
 `Hourly Graph` - This graph display the punchcard details for a particular user in a particular repository. What these details are is the amount of commits made at a particular time on a particular day of the week. This may allow the user of the service to inspect for when the user searched for is most productive on this particular repository. This may allow for changes in workflow.
 
 `Ẁeekly Graph` - This graph displays the number of commits per week the searched user has made to this particular repository over the last year. This may allow a user of the service to see when the most work is being done during the year, and potentially make changes accordingly.
+
+## Development Challenges
+
+* `Github Log In` - The first main challenge was loggin into github. This was mostly from not knowing much about the github api and its endpoints. This was quickly solved by some research on the official github api wiki. It is a fairly good resource on what each of the endpoints does, this enabled me to realise what endpoints had to be called in what order and what information had to be passed in. This also made me realise I had to create an Oauth application in my github account to accept these requests.
+
+* `d3` - There was some difficulty figuring the library out. This however, was solved using some of the examples on the official website for the library, and realising that github api responses are in json. This quickly allowed, the progression to fully functioning graphs. Which eventually lead to the creation on graphs that allow any user's repository to be requested.
