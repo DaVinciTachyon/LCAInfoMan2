@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<meta http-equiv="X-UA-Compatible" content="ie=edge">
+	<title>Social Graph</title>
+	<script src="https://d3js.org/d3.v4.js"></script>
+	<link rel="stylesheet" type="text/css" media="screen" href="main.css" />
+	<script src="main.js"></script>
+	<script>
+		function getRepo() {
+			username = document.getElementById('username').value;
+			repo = document.getElementById('repo').value;
+			document.getElementById('punch_card_stats').innerHTML = "";
+			punchCardGraph(username, repo, 'punch_card_stats');
+			document.getElementById('commit_activity_chart').innerHTML = "";
+			commitActivityGraph(username, repo, 'commit_activity_chart');
+		}
+	</script>
+</head>
+
+<body>
+
+</body>
+<script>
+var username = 'DaVinciTachyon';
+var repo = 'TCD';
+</script>
+<div class="toolbar">
+	<a href=""><div class="toolbaritem card">Home</div></a>
+</div>
+
+<div class="content centered">
+	<div id="profile" class="whiteback card">
+		<script>getProfile()</script>
+	</div>
+	<div id="searchbox" class="whiteback card">
+		<form>
+			<input class="card" id="username" name="username" type="text" value="DaVinciTachyon">
+			<input class="card" id="repo" name="repo" type="text" value="TCD">
+			<button class="card" type="button" onclick="getRepo()">Get Repo Information</button>
+		</form>
+	</div>
+	<div id="punchcard" class="whiteback card">
+		<div id="punch_card_stats">
+			<script>punchCardGraph(username, repo, 'punch_card_stats')</script>
+		</div>
+	</div>
+	<div id="commitactivity" class="whiteback card">
+		<div id="commit_activity_chart">
+			<script>commitActivityGraph(username, repo, 'commit_activity_chart')</script>
+		</div>
+	</div>
+</div>
+
+</html>
