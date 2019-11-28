@@ -9,16 +9,6 @@
 	<script src="https://d3js.org/d3.v4.js"></script>
 	<link rel="stylesheet" type="text/css" media="screen" href="main.css" />
 	<script src="main.js"></script>
-	<script>
-		function getRepo() {
-			username = document.getElementById('username').value;
-			repo = document.getElementById('repo').value;
-			document.getElementById('punch_card_stats').innerHTML = "";
-			punchCardGraph(username, repo, 'punch_card_stats');
-			document.getElementById('commit_activity_chart').innerHTML = "";
-			commitActivityGraph(username, repo, 'commit_activity_chart');
-		}
-	</script>
 </head>
 
 <body>

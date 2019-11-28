@@ -1,3 +1,12 @@
+function getRepo() {
+	username = document.getElementById('username').value;
+	repo = document.getElementById('repo').value;
+	document.getElementById('punch_card_stats').innerHTML = '';
+	punchCardGraph(username, repo, 'punch_card_stats');
+	document.getElementById('commit_activity_chart').innerHTML = '';
+	commitActivityGraph(username, repo, 'commit_activity_chart');
+}
+
 function getProfile() {
 	// We can get the token from the "access_token" query
 	// param, available in the browsers "location" global
